@@ -1,0 +1,27 @@
+name: watermark_app
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  video_player: ^2.4.7
+  path_provider: ^2.0.11
+  file_picker: ^4.6.1
+  image_picker: ^0.8.5+3
+  video_watermark: 
+    path: ../
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+flutter:
+
+  uses-material-design: true
