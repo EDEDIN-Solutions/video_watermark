@@ -38,9 +38,29 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+List<WatermarkAlignment> alignmentList = [
+  WatermarkAlignment.center,
+  WatermarkAlignment.topCenter,
+  WatermarkAlignment.bottomCenter,
+  WatermarkAlignment.leftCenter,
+  WatermarkAlignment.rightCenter,
+  WatermarkAlignment.topLeft,
+  WatermarkAlignment.topRight,
+  WatermarkAlignment.bottomLeft,
+  WatermarkAlignment.botomRight,
+];
+
 class _MyHomePageState extends State<MyHomePage> {
   late VideoPlayerController videoPlayerController;
+
   late final ScrollController scrollController;
+
+  WatermarkAlignment? watermarkAlignment;
+
+  double opacity = 1.0;
+
+  late final List<TextEditingController> paddingControllers;
+
   String? videoFile;
   String? imageFile;
   bool loading = false;
@@ -48,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     scrollController = ScrollController();
+    paddingControllers = List.generate(4, (index) => TextEditingController());
     super.initState();
   }
 
@@ -55,6 +76,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     scrollController.dispose();
     videoPlayerController.dispose();
+    for (var item in paddingControllers) {
+      item.dispose();
+    }
     super.dispose();
   }
 
@@ -69,20 +93,45 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       {
         "title": "Watermark Alignment",
+        "ontap": () {
+          generateVideo();
+        },
       },
       {
         "title": "Watermark padding",
+        "ontap": () {
+          for (var element in paddingControllers) {
+            if (element.text.isEmpty) {
+              element.text = "0";
+            }
+          }
+
+          if (watermarkAlignment != null) {
+            watermarkAlignment!.padding = EdgeInsets.only(
+              left: int.parse(paddingControllers[0].text).toDouble(),
+              right: int.parse(paddingControllers[1].text).toDouble(),
+              top: int.parse(paddingControllers[2].text).toDouble(),
+              bottom: int.parse(paddingControllers[3].text).toDouble(),
+            );
+          }
+
+          generateVideo();
+        },
+      },
+      {
+        "title": "Watermark opacity",
       },
       {
         "title": "Trim",
       },
     ];
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Video Watermark Demo"),
       ),
       body: loading
-          ? Center(child: const CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : videoFile == null || imageFile == null
               ? Center(
                   child: Column(
@@ -168,8 +217,60 @@ class _MyHomePageState extends State<MyHomePage> {
                           return SizedBox(
                             width: width,
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
+                                if (index == 1 || index == 2)
+                                  DropdownButton<WatermarkAlignment>(
+                                    value: watermarkAlignment,
+                                    hint: const Text("Select Alignment"),
+                                    items: List.generate(
+                                      alignmentList.length,
+                                      (index) => DropdownMenuItem(
+                                        child: Text(
+                                          alignmentList[index].toText(),
+                                        ),
+                                        value: alignmentList[index],
+                                      ),
+                                    ),
+                                    onChanged: (alignment) {
+                                      setState(() {
+                                        watermarkAlignment = alignment;
+                                      });
+                                    },
+                                  ),
+                                if (index == 2)
+                                  SizedBox(
+                                    // height: height * 0.05,
+                                    width: width,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        for (var i = 0;
+                                            i < paddingControllers.length;
+                                            i++)
+                                          SizedBox(
+                                            width: width * 0.2,
+                                            child: TextField(
+                                              controller: paddingControllers[i],
+                                              decoration: InputDecoration(
+                                                label: Text(i == 0
+                                                    ? "Left"
+                                                    : i == 1
+                                                        ? "Right"
+                                                        : i == 2
+                                                            ? "Top"
+                                                            : "Bottom"),
+                                                counterText: "",
+                                              ),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              maxLength: 3,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
                                 ElevatedButton(
                                   onPressed: options[index]["ontap"],
                                   child: Text(
@@ -196,6 +297,8 @@ class _MyHomePageState extends State<MyHomePage> {
       videoFileName: "Output${DateTime.now().millisecond}",
       watermark: Watermark(
         imagePath: imageFile!,
+        watermarkAlignment: watermarkAlignment,
+        opacity: opacity,
       ),
     );
 
