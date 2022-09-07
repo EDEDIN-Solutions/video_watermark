@@ -24,13 +24,11 @@ class VideoWatermark {
     this.trimVideo,
   });
   Future<void> saveVideo({required ValueSetter<String?> onSave}) async {
-    String command = '';
+    String command = '-i $sourceVideoPath ';
     String? outputPath = '';
     if (trimVideo != null) {
-      command +=
-          ' -ss ${trimVideo!.start} -i "$sourceVideoPath" -t ${trimVideo!.duration} -avoid_negative_ts make_zero ';
-    } else {
-      command += '-i $sourceVideoPath ';
+      command =
+          ' -ss ${trimVideo!.start} $command-t ${trimVideo!.duration} -avoid_negative_ts make_zero ';
     }
 
     outputPath = savePath ??

@@ -187,11 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           aspectRatio: videoPlayerController.value.aspectRatio,
                           child: InkWell(
                             onTap: () {
-                              if (videoPlayerController.value.isPlaying) {
-                                videoPlayerController.pause();
-                              } else {
-                                videoPlayerController.play();
-                              }
+                              videoPlayback();
                             },
                             child: VideoPlayer(videoPlayerController),
                           ),
@@ -580,6 +576,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> generateVideo(VideoWatermark videoWatermark) async {
+    videoPlayback();
     setState(() {
       loading = true;
     });
@@ -608,5 +605,13 @@ class _MyHomePageState extends State<MyHomePage> {
       duration: const Duration(milliseconds: 200),
       curve: Curves.ease,
     );
+  }
+
+  Future<void> videoPlayback() async {
+    if (videoPlayerController.value.isPlaying) {
+      await videoPlayerController.pause();
+    } else {
+      await videoPlayerController.play();
+    }
   }
 }
