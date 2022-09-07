@@ -1,5 +1,4 @@
-import 'package:video_watermark/src/watermark_size.dart';
-
+import 'watermark_size.dart';
 import 'watermark_alignment.dart';
 
 class Watermark {
