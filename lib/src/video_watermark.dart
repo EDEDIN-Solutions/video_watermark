@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 class VideoWatermark {
   final String sourceVideoPath;
   final String? videoFileName;
-  final Watermark watermark;
+  final Watermark? watermark;
   final OutputFormat? outputFormat;
   final String? savePath;
   final TrimVideo? trimVideo;
@@ -18,7 +18,7 @@ class VideoWatermark {
   const VideoWatermark({
     required this.sourceVideoPath,
     this.videoFileName,
-    required this.watermark,
+    this.watermark,
     this.outputFormat = OutputFormat.mp4,
     this.savePath,
     this.trimVideo,
@@ -40,7 +40,11 @@ class VideoWatermark {
     String? outputVideo =
         '$outputPath${videoFileName ?? DateTime.now().millisecond}.${outputFormat.toString().split(".").last}';
 
-    command += '$watermark $outputVideo';
+    if (watermark != null) {
+      command += '$watermark ';
+    }
+
+    command += outputVideo;
 
     print(command);
 
