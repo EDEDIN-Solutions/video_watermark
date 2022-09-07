@@ -13,7 +13,7 @@ class VideoWatermark {
   final Watermark? watermark;
   final OutputFormat? outputFormat;
   final String? savePath;
-  final TrimVideo? trimVideo;
+  final VideoTrim? videoTrim;
 
   const VideoWatermark({
     required this.sourceVideoPath,
@@ -21,14 +21,14 @@ class VideoWatermark {
     this.watermark,
     this.outputFormat = OutputFormat.mp4,
     this.savePath,
-    this.trimVideo,
+    this.videoTrim,
   });
   Future<void> saveVideo({required ValueSetter<String?> onSave}) async {
     String command = '-i $sourceVideoPath ';
     String? outputPath = '';
-    if (trimVideo != null) {
+    if (videoTrim != null) {
       command =
-          ' -ss ${trimVideo!.start} $command-t ${trimVideo!.duration} -avoid_negative_ts make_zero ';
+          ' -ss ${videoTrim!.start} $command-t ${videoTrim!.duration} -avoid_negative_ts make_zero ';
     }
 
     outputPath = savePath ??
@@ -43,8 +43,6 @@ class VideoWatermark {
     }
 
     command += outputVideo;
-
-    print(command);
 
     await FFmpegKit.executeAsync(command, (session) async {
       debugPrint(await session.getOutput());

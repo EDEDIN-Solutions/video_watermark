@@ -549,7 +549,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         case Pages.Trim:
                                           videoWatermark = VideoWatermark(
                                             sourceVideoPath: videoPath!,
-                                            trimVideo: TrimVideo(
+                                            videoTrim: VideoTrim(
                                               start: startTime,
                                               end: endTime,
                                             ),

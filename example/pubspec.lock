@@ -395,10 +395,10 @@ packages:
   video_watermark:
     dependency: "direct main"
     description:
-      path: "D:\\Sugan\\video_watermark"
-      relative: false
+      path: ".."
+      relative: true
     source: path
-    version: "1.0.0+1"
+    version: "1.0.0"
   win32:
     dependency: transitive
     description:
