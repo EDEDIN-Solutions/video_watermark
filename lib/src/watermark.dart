@@ -13,7 +13,7 @@ class Watermark {
 
   /// Opacity of the watermark image varies between 0.0 - 1.0.
   ///
-  /// Default value: 1.0.
+  /// Default value: `1.0`.
   double opacity;
 
   /// Characteristics of the watermark image.

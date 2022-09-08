@@ -8,7 +8,7 @@ class WatermarkAlignment {
 
   /// Offset from the all four sides with alignment specified.
   ///
-  /// Default value is const EdgeInsets.all(0)
+  /// Default value is `EdgeInsets.all(0)`
   ///
   /// Sample usage:
   ///

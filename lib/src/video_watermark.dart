@@ -29,7 +29,7 @@ class VideoWatermark {
   /// .avi,
   /// .wmv,
   /// .gif.
-  /// Deafult format: .mp4
+  /// Deafult format: `.mp4`
   final OutputFormat? outputFormat;
 
   /// Path where the output video to be saved.
