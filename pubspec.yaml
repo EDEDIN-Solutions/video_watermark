@@ -1,5 +1,5 @@
 name: video_watermark
-description: A Flutter package with simple tool to Watermark in video with Trim and more.
+description: Simple Flutter package to add image as overlay in the video along with video trim option.
 homepage: https://github.com/ededin/video_watermark
 
 version: 1.0.0

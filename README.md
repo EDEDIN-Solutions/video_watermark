@@ -1,7 +1,7 @@
 
 # Video Watermark
 
-Simple and fast Flutter package to add images as overlay in the video.
+Simple Flutter package to add image as overlay in the video along with video trim option.
 
 
 
