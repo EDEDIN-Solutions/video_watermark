@@ -15,13 +15,13 @@ class VideoWatermark {
 
   ///Name of the ouput video file without video format.
   ///
-  ///Default filename: videowatermark_(current time in millisecond)
+  ///Default filename: `videowatermark_(current time in millisecond)`
   final String? videoFileName;
 
-  /// The characteristics of watermark image that to be added in the video.
+  /// [Watermark] characteristics of watermark image to be added in video.
   final Watermark? watermark;
 
-  /// Video format for the output (converted) video
+  /// [OutputFormat] Video format for the output (converted) video
   ///
   /// Available formats
   /// .mp4,
@@ -39,17 +39,19 @@ class VideoWatermark {
   /// The default path will be Application Documents Directory
   final String? savePath;
 
-  /// For specifying the start and end time of the video to be trimmed.
+  /// [VideoTrim] For specifying the start and end time of the video to be trimmed.
   final VideoTrim? videoTrim;
 
-  /// Callback trggred when the video convertion completed.
+  /// Callback triggered when the video convertion completed.
   ///
   /// Return value on successful conversion will be `path of converted video` else will be `null`.
   final ValueSetter<String?>? onSave;
 
-  /// The parameters of watermark and trim with the save function.
+  /// Creates Watermark in video with the image in local storage
   ///
-  /// Required paramater [sourceVideoPath] path of the video to be converted.
+  /// [watermark] defines the characteristics of watermark.
+  ///
+  /// Required paramater [sourceVideoPath] path of the video to be added watermark.
   const VideoWatermark({
     required this.sourceVideoPath,
     this.videoFileName,

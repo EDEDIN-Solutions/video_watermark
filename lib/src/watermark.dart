@@ -5,7 +5,7 @@ class Watermark {
   /// Path of the image added in the video as watermark.
   final String imagePath;
 
-  /// Height and width of the watermark image,
+  /// [WatermarkSize] Height and width of the watermark image,
   ///
   /// Default value:
   /// ```dart
@@ -13,7 +13,7 @@ class Watermark {
   /// ```
   WatermarkSize? watermarkSize;
 
-  /// Position of the watermark image in the video
+  /// [WatermarkAlignment] Position of the watermark image in the video
   ///
   /// Default value:
   /// ```dart
@@ -26,7 +26,7 @@ class Watermark {
   /// Default value: `1.0`.
   double opacity;
 
-  /// Characteristics of the watermark image.
+  /// Defines the characteristics of watermark image.
   ///
   /// Required parameter [imagePath].
   Watermark({
