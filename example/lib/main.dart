@@ -612,7 +612,7 @@ class _MyHomePageState extends State<MyHomePage> {
       loading = true;
     });
 
-    await videoWatermark.saveVideo();
+    await videoWatermark.generateVideo();
   }
 
   void onSave(String? file) {

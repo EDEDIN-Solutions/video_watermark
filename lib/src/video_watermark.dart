@@ -62,8 +62,8 @@ class VideoWatermark {
     this.onSave,
   });
 
-  /// To save the generated video with the parameters
-  Future<void> saveVideo() async {
+  /// Genrates video in the output path.
+  Future<void> generateVideo() async {
     String? outputPath = savePath ??
         await getApplicationDocumentsDirectory()
             .then((value) => value.path + '/');
