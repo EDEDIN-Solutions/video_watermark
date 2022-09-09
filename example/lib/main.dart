@@ -84,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool lockAspectRatio = false;
 
+  bool addWatermark = false;
+
   int currentPage = 0;
 
   @override
@@ -245,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         alignmentList.length,
                                         (index) => DropdownMenuItem(
                                           child: Text(
-                                            alignmentList[index].toText(),
+                                            alignmentList[index].toString(),
                                           ),
                                           value: alignmentList[index],
                                         ),
@@ -369,11 +371,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   if (index == 5)
                                     Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text("Start"),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.start,
                                           children: [
                                             IconButton(
                                               onPressed: (() {
@@ -413,7 +417,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         const Text("\nEnd"),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.start,
                                           children: [
                                             IconButton(
                                               onPressed: (() {
@@ -446,6 +450,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 }
                                               }),
                                               icon: const Icon(Icons.add),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Checkbox(
+                                                  value: addWatermark,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      addWatermark =
+                                                          value ?? true;
+                                                    });
+                                                  },
+                                                ),
+                                                const Text("\t\tWatermark"),
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -485,6 +505,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             watermark: Watermark(
                                               imagePath: imagePath!,
                                             ),
+                                            onSave: onSave,
                                           );
                                           break;
 
@@ -496,6 +517,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               watermarkAlignment:
                                                   watermarkAlignment,
                                             ),
+                                            onSave: onSave,
                                           );
                                           break;
 
@@ -507,6 +529,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               watermarkAlignment:
                                                   watermarkAlignment,
                                             ),
+                                            onSave: onSave,
                                           );
                                           break;
 
@@ -517,6 +540,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               imagePath: imagePath!,
                                               opacity: opacity / 100,
                                             ),
+                                            onSave: onSave,
                                           );
                                           break;
 
@@ -543,6 +567,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           0,
                                                     ),
                                             ),
+                                            onSave: onSave,
                                           );
                                           break;
 
@@ -553,6 +578,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                               start: startTime,
                                               end: endTime,
                                             ),
+                                            watermark: addWatermark
+                                                ? Watermark(
+                                                    imagePath: imagePath!,
+                                                  )
+                                                : null,
+                                            onSave: onSave,
                                           );
                                           break;
                                       }
@@ -581,22 +612,22 @@ class _MyHomePageState extends State<MyHomePage> {
       loading = true;
     });
 
-    await videoWatermark.saveVideo(
-      onSave: (value) {
-        if (value != null) {
-          videoPlayerController = VideoPlayerController.file(File(value))
-            ..initialize().then((value) {
-              setState(() {
-                loading = false;
-              });
-            });
-        } else {
+    await videoWatermark.saveVideo();
+  }
+
+  void onSave(String? file) {
+    if (file != null) {
+      videoPlayerController = VideoPlayerController.file(File(file))
+        ..initialize().then((value) {
           setState(() {
             loading = false;
           });
-        }
-      },
-    );
+        });
+    } else {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   Future<void> changeOption() async {

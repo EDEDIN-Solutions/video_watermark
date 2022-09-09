@@ -27,6 +27,6 @@ class VideoTrim {
   ///
   /// Start time should be less than the end time to trim the video
   VideoTrim({required this.start, required this.end})
-      : assert(end < start,
-            "Start time should be less than the end time to trim the video");
+      : assert(end > start,
+            "Start time - $start should be less than the end time - $end to trim the video ${end < start}");
 }

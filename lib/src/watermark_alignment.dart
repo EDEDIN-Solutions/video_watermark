@@ -46,8 +46,8 @@ class WatermarkAlignment {
   /// Aligns the watermark image in the bottom right corner of the video.
   static WatermarkAlignment botomRight = WatermarkAlignment._(1, 1, 8);
 
-  /// Converts the [WatermarkAlignment] to readable text.
-  String toText() {
+  @override
+  String toString() {
     return {
       0: "Center",
       1: "Top Center",
@@ -61,8 +61,7 @@ class WatermarkAlignment {
     }[i]!;
   }
 
-  @override
-  String toString() {
+  String toCommand() {
     String w = '0';
     String h = '0';
 

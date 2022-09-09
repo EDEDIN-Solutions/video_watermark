@@ -13,8 +13,7 @@ class WatermarkSize {
     return WatermarkSize(width, -1);
   }
 
-  @override
-  String toString() {
+  String toCommand() {
     return 'scale=$width:$height, ';
   }
 }
