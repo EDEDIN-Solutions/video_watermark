@@ -1,16 +1,59 @@
-# logo_in_video
 
-A new Flutter project.
+# Video Watermark
 
-## Getting Started
+Simple and fast Flutter package to add images as overlay in the video.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
+
+- Add logo in video
+- Alter logo in many parameters 
+- Simple video trim
+- Cross platform
+
+
+## Usage
+
+Just initiate `VideoWatermark` instance
+
+
+```dart
+VideoWatermark videoWatermark = VideoWatermark(
+    sourceVideoPath: videoPath,
+    watermark: Watermark( imagePath: imagePath),
+    onSave: (path){
+        // Get the output file path
+    },
+);
+```
+
+To generate video with watermark.
+
+```dart
+videoWatermark.generateVideo();
+```
+
+Also you can trim video in simple way.
+
+```dart
+VideoWatermark videoWatermark = VideoWatermark(
+    sourceVideoPath: videoPath,
+    videoTrim: VideoTrim(start: startTime, end: endTime)
+    onSave: (path){
+        // Get the output file path
+    },
+);
+```
+
+You can decide the watermark location, size and opacity in video with `WatermarkAlignment` & `WatermarkSize`.
+
+```dart
+Watermark watermark = Watermark(
+    imagePath: imagePath!,
+    watermarkAlignment: WatermarkAlignment.topCenter,
+    watermarkSize: WatermarkSize(150,200),
+    opacity: 0.8   //0.0 - 1.0
+);
+```
