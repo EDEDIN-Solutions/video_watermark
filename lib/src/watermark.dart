@@ -6,9 +6,19 @@ class Watermark {
   final String imagePath;
 
   /// Height and width of the watermark image,
+  ///
+  /// Default value:
+  /// ```dart
+  /// WatermarkSize.symmertric(100)
+  /// ```
   WatermarkSize? watermarkSize;
 
   /// Position of the watermark image in the video
+  ///
+  /// Default value:
+  /// ```dart
+  /// WatermarkAlignment.center
+  /// ```
   WatermarkAlignment? watermarkAlignment;
 
   /// Opacity of the watermark image varies between 0.0 - 1.0.

@@ -42,6 +42,9 @@ class VideoWatermark {
   /// For specifying the start and end time of the video to be trimmed.
   final VideoTrim? videoTrim;
 
+  /// Callback trggred when the video convertion completed.
+  ///
+  /// Return value on successful conversion will be `path of converted video` else will be `null`.
   final ValueSetter<String?>? onSave;
 
   /// The parameters of watermark and trim with the save function.
@@ -114,7 +117,6 @@ class VideoWatermark {
 
   Future<void> _runFFmpegCommand(
       String command, ValueSetter<bool> onDone) async {
-    print(command);
     await FFmpegKit.executeAsync(command, (session) async {
       ReturnCode? returnCode = await session.getReturnCode();
 
