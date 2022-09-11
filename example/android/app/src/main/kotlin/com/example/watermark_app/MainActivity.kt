@@ -1,4 +1,4 @@
-package com.example.watermark_app
+package com.ededin.watermark_app
 
 import io.flutter.embedding.android.FlutterActivity
 
