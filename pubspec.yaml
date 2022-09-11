@@ -1,6 +1,7 @@
 name: video_watermark
 description: Simple Flutter package to add image as overlay in the video along with video trim option.
-homepage: https://github.com/ededin/video_watermark
+homepage: https://eded.in
+repository: https://github.com/ededin/video_watermark
 
 version: 1.0.0-dev.1
 
@@ -19,4 +20,3 @@ dev_dependencies:
 platforms:
   android:
   ios:
-  macos:
