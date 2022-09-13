@@ -3,7 +3,9 @@ import 'watermark_size.dart';
 import 'watermark_alignment.dart';
 
 class Watermark {
-  /// Path of the image added in the video as watermark.
+  /// Source of image to be added in the video as watermark.
+  ///
+  /// Supported sources: `File` and `Assets`.
   final WatermarkSource image;
 
   /// [WatermarkSize] Height and width of the watermark image,
