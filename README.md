@@ -9,8 +9,9 @@ Simple Flutter package to add image as overlay in the video along with video tri
 ## Features
 
 - Add logo in video
-- Alter logo in many parameters 
-- Simple video trim
+- Alter logo in various parameters 
+- Simple way to trim video
+- Add image from various source
 - Cross platform
 
 
