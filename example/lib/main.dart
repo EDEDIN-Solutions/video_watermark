@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String? videoPath;
 
-  String? imagePath;
+  WatermarkSource? imagePath;
 
   bool loading = false;
 
@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               .then((value) async {
                             if (value?.path != null) {
                               setState(() {
-                                imagePath = value!.path;
+                                imagePath = WatermarkSource.file(value!.path);
                               });
                             }
                           });
@@ -503,7 +503,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           videoWatermark = VideoWatermark(
                                             sourceVideoPath: videoPath!,
                                             watermark: Watermark(
-                                              imagePath: imagePath!,
+                                              image: imagePath!,
                                             ),
                                             onSave: onSave,
                                           );
@@ -513,7 +513,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           videoWatermark = VideoWatermark(
                                             sourceVideoPath: videoPath!,
                                             watermark: Watermark(
-                                              imagePath: imagePath!,
+                                              image: imagePath!,
                                               watermarkAlignment:
                                                   watermarkAlignment,
                                             ),
@@ -525,7 +525,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           videoWatermark = VideoWatermark(
                                             sourceVideoPath: videoPath!,
                                             watermark: Watermark(
-                                              imagePath: imagePath!,
+                                              image: imagePath!,
                                               watermarkAlignment:
                                                   watermarkAlignment,
                                             ),
@@ -537,7 +537,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           videoWatermark = VideoWatermark(
                                             sourceVideoPath: videoPath!,
                                             watermark: Watermark(
-                                              imagePath: imagePath!,
+                                              image: imagePath!,
                                               opacity: opacity / 100,
                                             ),
                                             onSave: onSave,
@@ -548,7 +548,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           videoWatermark = VideoWatermark(
                                             sourceVideoPath: videoPath!,
                                             watermark: Watermark(
-                                              imagePath: imagePath!,
+                                              image: imagePath!,
                                               watermarkSize: lockAspectRatio
                                                   ? WatermarkSize.symmertric(
                                                       double.tryParse(
@@ -580,7 +580,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ),
                                             watermark: addWatermark
                                                 ? Watermark(
-                                                    imagePath: imagePath!,
+                                                    image: imagePath!,
                                                   )
                                                 : null,
                                             onSave: onSave,

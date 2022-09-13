@@ -1,10 +1,10 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart' show ValueSetter, debugPrint;
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:ffmpeg_kit_flutter/session_state.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart'
+    show getApplicationDocumentsDirectory;
 import 'output_format.dart';
 import 'trim_video.dart';
 import 'watermark.dart';
@@ -124,7 +124,7 @@ class VideoWatermark {
 
       SessionState sessionState = await session.getState();
 
-      debugPrint("Video conversion $sessionState");
+      debugPrint("Video conversion ${sessionState.name}");
 
       if (ReturnCode.isSuccess(returnCode)) {
         onDone.call(true);

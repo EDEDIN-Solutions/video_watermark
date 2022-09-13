@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show EdgeInsets;
 
 /// Position of the watermark image in the video.
 class WatermarkAlignment {
