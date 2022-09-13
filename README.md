@@ -22,7 +22,7 @@ Just initiate `VideoWatermark` instance
 ```dart
 VideoWatermark videoWatermark = VideoWatermark(
     sourceVideoPath: videoPath,
-    watermark: Watermark( imagePath: imagePath),
+    watermark: Watermark(image: WatermarkSource.file(imagepath)),
     onSave: (path){
         // Get the output file path
     },
@@ -51,9 +51,19 @@ You can decide the watermark location, size and opacity in video with `Watermark
 
 ```dart
 Watermark watermark = Watermark(
-    imagePath: imagePath!,
+    image: WatermarkSource.file(imagepath),
     watermarkAlignment: WatermarkAlignment.topCenter,
     watermarkSize: WatermarkSize(150,200),
     opacity: 0.8   //0.0 - 1.0
 );
+```
+
+Yau can include watermark images from two sources `File` and `Asset`.
+
+```dart
+WatermarkSource.file(imagepath)
+```
+
+```dart
+WatermarkSource.asset(assetpath)
 ```
