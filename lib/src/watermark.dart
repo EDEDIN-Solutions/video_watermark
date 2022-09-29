@@ -5,7 +5,7 @@ import 'watermark_alignment.dart';
 class Watermark {
   /// Source of image to be added in the video as watermark.
   ///
-  /// Supported sources: `File` and `Assets`.
+  /// Supported sources: `File`, `Assets` and `Network`.
   final WatermarkSource image;
 
   /// [WatermarkSize] Height and width of the watermark image,
@@ -39,7 +39,10 @@ class Watermark {
     this.watermarkAlignment,
   });
 
-  String toCommand() {
-    return '-i $image -filter_complex "[1:v]${(watermarkSize ?? WatermarkSize.symmertric(100)).toCommand()}format=argb,geq=r=\'r(X,Y)\':a=\'$opacity*alpha(X,Y)\'[i];[0:v][i]overlay=${(watermarkAlignment ?? WatermarkAlignment.center).toCommand()}[o]" -map "[o]" -map "0:a"';
+  Future<String> toCommand() async {
+    return await image.toCommand().then(
+          (value) =>
+              '-i $value -filter_complex "[1:v]${(watermarkSize ?? WatermarkSize.symmertric(100)).toCommand()}format=argb,geq=r=\'r(X,Y)\':a=\'$opacity*alpha(X,Y)\'[i];[0:v][i]overlay=${(watermarkAlignment ?? WatermarkAlignment.center).toCommand()}[o]" -map "[o]" -map "0:a"',
+        );
   }
 }

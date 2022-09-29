@@ -30,7 +30,6 @@ class VideoWatermark {
   /// .flv,
   /// .avi,
   /// .wmv,
-  /// .gif.
   /// Deafult format: `.mp4`
   final OutputFormat? outputFormat;
 
@@ -103,7 +102,9 @@ class VideoWatermark {
     String outputVideo,
     ValueSetter<bool> onDone,
   ) async {
-    String command = '-i $sourceVideo ${watermark!.toCommand()} $outputVideo';
+    String command = await watermark!
+        .toCommand()
+        .then((value) => '-i $sourceVideo $value $outputVideo');
     await _runFFmpegCommand(command, onDone);
   }
 
@@ -119,20 +120,26 @@ class VideoWatermark {
 
   Future<void> _runFFmpegCommand(
       String command, ValueSetter<bool> onDone) async {
-    await FFmpegKit.executeAsync(command, (session) async {
-      ReturnCode? returnCode = await session.getReturnCode();
+    await FFmpegKit.executeAsync(
+      command,
+      (session) async {
+        ReturnCode? returnCode = await session.getReturnCode();
 
-      SessionState sessionState = await session.getState();
+        SessionState sessionState = await session.getState();
 
-      debugPrint("Video conversion ${sessionState.name}");
+        debugPrint("Video conversion ${sessionState.name}");
 
-      if (ReturnCode.isSuccess(returnCode)) {
-        onDone.call(true);
-      } else {
-        debugPrint("Video save failed");
-        onSave?.call(null);
-        onDone.call(false);
-      }
-    });
+        if (ReturnCode.isSuccess(returnCode)) {
+          onDone.call(true);
+        } else {
+          debugPrint("Video save failed");
+          onSave?.call(null);
+          onDone.call(false);
+        }
+      },
+      (log) {
+        print(log.getMessage());
+      },
+    );
   }
 }
