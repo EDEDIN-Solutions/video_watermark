@@ -137,9 +137,6 @@ class VideoWatermark {
           onDone.call(false);
         }
       },
-      (log) {
-        print(log.getMessage());
-      },
     );
   }
 }
