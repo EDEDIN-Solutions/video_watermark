@@ -59,7 +59,7 @@ Watermark watermark = Watermark(
 );
 ```
 
-Yau can include watermark images from two sources `File` and `Asset`.
+Yau can include watermark images from two sources `File`, `Asset` and `Network`.
 
 ```dart
 WatermarkSource.file(imagepath)
@@ -67,4 +67,8 @@ WatermarkSource.file(imagepath)
 
 ```dart
 WatermarkSource.asset(assetpath)
+```
+
+```dart
+WatermarkSource.network(imageUrl)
 ```
