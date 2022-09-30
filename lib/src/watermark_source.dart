@@ -24,8 +24,8 @@ class WatermarkSource {
   }
 
   /// To add image from network with image url.
-  WatermarkSource.network(String path) {
-    _path = path;
+  WatermarkSource.network(String url) {
+    _path = url;
     _source = WatermarkSourceEnum.network;
   }
 
