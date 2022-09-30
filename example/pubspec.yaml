@@ -15,9 +15,9 @@ dependencies:
   path_provider: ^2.0.11
   file_picker: ^4.6.1
   image_picker: ^0.8.5+3
-  # video_watermark: ^1.0.1
-  video_watermark: 
-    path: ../
+  video_watermark: ^1.0.2
+  # video_watermark: 
+  #  path: ../
 dev_dependencies:
   flutter_test:
     sdk: flutter
