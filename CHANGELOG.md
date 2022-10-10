@@ -12,3 +12,7 @@
 * Fixed bug in asset watermark source.
 * Temporarly not supporting output format `.gif`
 * Added support from Android SDK 16 and IOS SDK 10.
+
+# 1.0.3
+
+* Reduced app build size.
