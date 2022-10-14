@@ -1,10 +1,10 @@
-# 1.0.0
+# 1.0.4
 
-- Initial stable release
+- Added video progress indicator.
 
-# 1.0.1
+# 1.0.3
 
-- Support to add images from File and assets.
+- Reduced app build size.
 
 # 1.0.2
 
@@ -13,10 +13,10 @@
 - Temporarly not supporting output format `.gif`
 - Added support from Android SDK 16 and IOS SDK 10.
 
-# 1.0.3
+# 1.0.1
 
-- Reduced app build size.
+- Support to add images from File and assets.
 
-# 1.0.4
+# 1.0.0
 
-- Added video progress indicator.
+- Initial stable release
