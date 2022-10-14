@@ -75,6 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late Duration endTime;
 
+  double? _progress;
+
   String? videoPath;
 
   WatermarkSource? imagePath;
@@ -125,7 +127,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Video Watermark Demo"),
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: CircularProgressIndicator(
+                value: _progress,
+              ),
+            )
           : videoPath == null || imagePath == null
               ? Center(
                   child: Column(
@@ -505,6 +511,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             watermark: Watermark(
                                               image: imagePath!,
                                             ),
+                                            progress: progress,
                                             onSave: onSave,
                                           );
                                           break;
@@ -517,6 +524,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               watermarkAlignment:
                                                   watermarkAlignment,
                                             ),
+                                            progress: progress,
                                             onSave: onSave,
                                           );
                                           break;
@@ -529,6 +537,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               watermarkAlignment:
                                                   watermarkAlignment,
                                             ),
+                                            progress: progress,
                                             onSave: onSave,
                                           );
                                           break;
@@ -540,6 +549,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               image: imagePath!,
                                               opacity: opacity / 100,
                                             ),
+                                            progress: progress,
                                             onSave: onSave,
                                           );
                                           break;
@@ -567,6 +577,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           0,
                                                     ),
                                             ),
+                                            progress: progress,
                                             onSave: onSave,
                                           );
                                           break;
@@ -584,6 +595,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   )
                                                 : null,
                                             onSave: onSave,
+                                            progress: progress,
                                           );
                                           break;
                                       }
@@ -613,6 +625,16 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     await videoWatermark.generateVideo();
+  }
+
+  void progress(double percent) {
+    setState(() {
+      if (percent <= 1) {
+        _progress = percent;
+      } else {
+        _progress = null;
+      }
+    });
   }
 
   void onSave(String? file) {

@@ -46,6 +46,11 @@ class VideoWatermark {
   /// Return value on successful conversion will be `path of converted video` else will be `null`.
   final ValueSetter<String?>? onSave;
 
+  /// Callback with video conversion completion percentage.
+  ///
+  /// Value from `0 - 1.0`
+  final ValueSetter<double>? progress;
+
   /// Creates Watermark in video with the image in local storage
   ///
   /// [watermark] defines the characteristics of watermark.
@@ -59,6 +64,7 @@ class VideoWatermark {
     this.savePath,
     this.videoTrim,
     this.onSave,
+    this.progress,
   });
 
   /// Genrates video in the output path.
@@ -68,32 +74,58 @@ class VideoWatermark {
             .then((value) => value.path + '/');
 
     int time = DateTime.now().millisecond;
+
     String trimmedVideo =
         '$outputPath${'trimmed_$time'}.${outputFormat.toString().split(".").last}';
 
     String? outputVideo =
         '$outputPath${videoFileName ?? 'videowatermark_$time'}.${outputFormat.toString().split(".").last}';
+
     if (videoTrim != null) {
-      await _trimVideo(trimmedVideo, (tempVideoSave) {
-        if (tempVideoSave) {
-          if (watermark != null) {
-            _addWatermark(trimmedVideo, outputVideo, (outputVideoSave) {
-              if (outputVideoSave) {
-                File(trimmedVideo).delete();
-                onSave?.call(outputVideo);
-              }
-            });
-          } else {
-            onSave?.call(trimmedVideo);
+      double _progress = 0;
+      await _trimVideo(
+        trimmedVideo,
+        (tempVideoSave) {
+          if (tempVideoSave) {
+            if (watermark != null) {
+              _addWatermark(
+                trimmedVideo,
+                outputVideo,
+                (outputVideoSave) {
+                  if (outputVideoSave) {
+                    File(trimmedVideo).delete();
+                    onSave?.call(outputVideo);
+                  }
+                },
+                (p) {
+                  progress?.call(_progress + p / 2);
+                },
+              );
+            } else {
+              onSave?.call(trimmedVideo);
+            }
           }
-        }
-      });
+        },
+        (p) {
+          if (watermark != null) {
+            _progress = p / 2;
+          } else {
+            _progress = p;
+          }
+          progress?.call(_progress);
+        },
+      );
     } else {
-      _addWatermark(sourceVideoPath, outputVideo, (outputVideoSave) {
-        if (outputVideoSave) {
-          onSave?.call(outputVideo);
-        }
-      });
+      _addWatermark(
+        sourceVideoPath,
+        outputVideo,
+        (outputVideoSave) {
+          if (outputVideoSave) {
+            onSave?.call(outputVideo);
+          }
+        },
+        progress,
+      );
     }
   }
 
@@ -101,25 +133,36 @@ class VideoWatermark {
     String sourceVideo,
     String outputVideo,
     ValueSetter<bool> onDone,
+    ValueSetter<double>? progress,
   ) async {
     String command = await watermark!
         .toCommand()
         .then((value) => '-i $sourceVideo $value $outputVideo');
-    await _runFFmpegCommand(command, onDone);
+    await _runFFmpegCommand(command, onDone, progress);
   }
 
   Future<void> _trimVideo(
     String outputVideo,
     ValueSetter<bool> onDone,
+    ValueSetter<double>? progress,
   ) async {
     String command =
         ' -ss ${videoTrim!.start} -i $sourceVideoPath -t ${videoTrim!.duration} -avoid_negative_ts make_zero $outputVideo';
 
-    await _runFFmpegCommand(command, onDone);
+    await _runFFmpegCommand(command, onDone, progress);
   }
 
   Future<void> _runFFmpegCommand(
-      String command, ValueSetter<bool> onDone) async {
+    String command,
+    ValueSetter<bool> onDone,
+    ValueSetter<double>? progress,
+  ) async {
+    Duration? videoDuration;
+
+    bool getDuration = false;
+
+    double _progress = 0;
+
     await FFmpegKit.executeAsync(
       command,
       (session) async {
@@ -136,6 +179,33 @@ class VideoWatermark {
           onSave?.call(null);
           onDone.call(false);
         }
+      },
+      (log) {
+        String out = log.getMessage();
+        if (videoTrim == null) {
+          if (videoDuration == null && getDuration) {
+            List<String> duration = out.split(':');
+            videoDuration = Duration(
+              hours: int.parse(duration[0]),
+              minutes: int.parse(duration[1]),
+              seconds: int.parse(duration[2].split('.').first),
+              milliseconds: int.parse(duration[2].split('.').last),
+            );
+            getDuration = false;
+          }
+          if (videoDuration == null && out.contains("Duration:")) {
+            getDuration = true;
+          }
+        } else {
+          videoDuration = videoTrim?.duration;
+        }
+      },
+      (statistics) {
+        _progress = (statistics.getTime() / videoDuration!.inMilliseconds);
+        if (_progress > 1) {
+          _progress = 1;
+        }
+        progress?.call(_progress);
       },
     );
   }

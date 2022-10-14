@@ -1,31 +1,28 @@
-
 # Video Watermark
 
 Simple Flutter package to add image as overlay in the video along with video trim option.
 
-
-
-
 ## Features
 
 - Add logo in video
-- Alter logo in various parameters 
+- Alter logo in various parameters
 - Simple way to trim video
 - Add image from various source
 - Cross platform
 
-
 ## Usage
 
 Just initiate `VideoWatermark` instance
-
 
 ```dart
 VideoWatermark videoWatermark = VideoWatermark(
     sourceVideoPath: videoPath,
     watermark: Watermark(image: WatermarkSource.file(imagepath)),
     onSave: (path){
-        // Get the output file path
+        // Get output file path
+    },
+    progress: (value){
+        // Get video generation progress
     },
 );
 ```
@@ -36,19 +33,19 @@ To generate video with watermark.
 videoWatermark.generateVideo();
 ```
 
-Also you can trim video in simple way.
+Also you can trim video in simple.
 
 ```dart
 VideoWatermark videoWatermark = VideoWatermark(
     sourceVideoPath: videoPath,
     videoTrim: VideoTrim(start: startTime, end: endTime)
-    onSave: (path){
+    onSave: (path) {
         // Get the output file path
     },
 );
 ```
 
-You can decide the watermark location, size and opacity in video with `WatermarkAlignment` & `WatermarkSize`.
+Decide the watermark location, size and opacity in video with `WatermarkAlignment` & `WatermarkSize`.
 
 ```dart
 Watermark watermark = Watermark(
@@ -59,7 +56,7 @@ Watermark watermark = Watermark(
 );
 ```
 
-Yau can include watermark images from two sources `File`, `Asset` and `Network`.
+Add watermark images from various sources `File`, `Asset` and `Network`.
 
 ```dart
 WatermarkSource.file(imagepath)
