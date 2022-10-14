@@ -13,9 +13,8 @@ dependencies:
     sdk: flutter
   video_player: ^2.4.7
   path_provider: ^2.0.11
-  file_picker: ^4.6.1
   image_picker: ^0.8.5+3
-  video_watermark: ^1.0.2
+  video_watermark: ^1.0.3
   # video_watermark: 
   #  path: ../
 dev_dependencies:

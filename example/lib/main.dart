@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
@@ -134,19 +133,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          FilePicker.platform.pickFiles().then((value) async {
+                          ImagePicker()
+                              .pickVideo(source: ImageSource.gallery)
+                              .then((value) async {
                             setState(() {
                               loading = true;
                             });
-                            if (value?.paths[0] != null) {
+                            if (value != null) {
                               videoPlayerController =
-                                  VideoPlayerController.file(
-                                      File(value!.paths[0]!));
+                                  VideoPlayerController.file(File(value.path));
                               await videoPlayerController
                                   .initialize()
                                   .then((video) {
                                 setState(() {
-                                  videoPath = value.paths[0];
+                                  videoPath = value.path;
                                   videoDuration =
                                       videoPlayerController.value.duration;
                                   endTime = videoDuration;
