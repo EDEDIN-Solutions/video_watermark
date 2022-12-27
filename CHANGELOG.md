@@ -1,3 +1,7 @@
+# 1.0.5-LTS
+
+- Updated FFMPEG to `5.1.0-LTS`.
+
 # 1.0.4
 
 - Added video progress indicator.
