@@ -1,3 +1,7 @@
+# 1.0.5
+
+- Updated FFMPEG to `5.1.0`.
+
 # 1.0.5-LTS
 
 - Updated FFMPEG to `5.1.0-LTS`.
