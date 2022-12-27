@@ -52,10 +52,10 @@ List<WatermarkAlignment> alignmentList = [
   WatermarkAlignment.botomRight,
 ];
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   late VideoPlayerController videoPlayerController;
-
-  late final ScrollController scrollController;
+  late TabController tabController;
 
   WatermarkAlignment? watermarkAlignment;
 
@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    scrollController = ScrollController();
+    tabController = TabController(length: Pages.values.length, vsync: this);
 
     paddingControllers = List.generate(4, (index) => TextEditingController());
 
@@ -108,11 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
-    scrollController.dispose();
     opacityController.dispose();
     videoPlayerController.dispose();
     widthController.dispose();
     heightController.dispose();
+    tabController.dispose();
     for (var item in paddingControllers) {
       item.dispose();
     }
@@ -229,16 +229,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Expanded(
                         flex: 2,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          physics: const NeverScrollableScrollPhysics(),
-                          controller: scrollController,
-                          itemCount: Pages.values.length,
-                          itemBuilder: ((context, index) {
-                            if (scrollController.hasClients) {
-                              changeOption();
-                            }
-
+                        child: TabBarView(
+                          controller: tabController,
+                          children: List.generate(Pages.values.length, (index) {
                             return SizedBox(
                               width: width,
                               child: Column(
@@ -652,9 +645,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> changeOption() async {
-    await scrollController.animateTo(
-      width * currentPage,
+  void changeOption() async {
+    tabController.animateTo(
+      currentPage,
       duration: const Duration(milliseconds: 200),
       curve: Curves.ease,
     );
